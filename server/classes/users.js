@@ -4,8 +4,8 @@ class Users {
         this .users = [];   // Usuarios conectados al Chat
     }
 
-    add( id, username ) {
-        let newuser = { id, username };
+    add( id, username, chatroom ) {
+        let newuser = { id, username, chatroom };
 
         this .users .push( newuser );
 

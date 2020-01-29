@@ -4,13 +4,14 @@ var socket = io(),      // Como la hemos definido en el BackEnd debemos invocarl
     newUser;
 
 /** Valida si NO se ha pasado como parametro 'username' en la URL */
-if( ! params .has( 'username' ) ) {
+if( ! params .has( 'username' ) || ! params .has( 'chatRoom' ) ) {
     window .location = 'index.html';    // Redireccion
-    throw new Error( 'El nick o nombre de usuario es necesario' );
+    throw new Error( 'El nombre de usuario o la sala son necesarios' );
 }
 
 newUser = {
-    username: params .get( 'username' )
+    username: params .get( 'username' ),
+    chatroom: params .get( 'chatRoom' ),
 }
 
 /** Escucho en el evento de conexión los sockets entrantes al Servidor */

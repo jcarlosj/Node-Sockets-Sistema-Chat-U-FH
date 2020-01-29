@@ -7,13 +7,15 @@ const { io } = require( '../server' ),
 io .on( 'connection', ( client ) => {
     console .log( 'Socket: Cliente conectado al Servidor' );    // Registro en la consola la conexión del Socket al Servidor
 
+    //console .log( 'client', client );
+
     /** Escucha evento de desconección del Cliente */
     client .on( 'disconnect', () => {
         let userLeavesChat = users .delete( client .id );        // Elimina usuario usando el ID del Socket
         
-        console .group( 'Usuario desconectado del Servidor' );
-        console .log( `${ userLeavesChat .username } ha abandonado!` );
-        console .groupEnd();
+        // console .group( 'Usuario desconectado del Servidor' );
+        // console .log( `${ userLeavesChat .username } ha abandonado!` );
+        // console .groupEnd();
 
         /** Emite a todos los Clientes: Usuario que ha abandonado el chat */
         client .broadcast .emit( 'leaveChat', createMessage( 'Administrador', `${ userLeavesChat .username } ha abandonado el chat` ) );
@@ -33,18 +35,21 @@ io .on( 'connection', ( client ) => {
         console .log( 'Usuario conectado:', data );
 
         /** Valida si NO existe el nombre del usuario */
-        if( ! data .username ) {
+        if( ! data .username || ! data .chatroom ) {
 
             return callback({
                 success: false,
                 error: {
-                    message: 'El nombre de usuario es necesario'
+                    message: 'El nombre de usuario o la sala son necesarios'
                 }
             });
         }
 
+        /** Conectar un usuario a una sala */
+        client .join( data .chatroom );
+
         /** Agrega usuario usando el ID del Socket y el 'username' proporcionado desde el FrontEnd */
-        let usersOnline = users .add( client .id, data .username );   
+        let usersOnline = users .add( client .id, data .username, data .chatroom );   
 
         console .group( 'Usuario conectado al Servidor' );
         console .log( `${ data .username } se ha conectado!` );
