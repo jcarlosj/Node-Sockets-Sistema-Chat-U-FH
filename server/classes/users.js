@@ -23,7 +23,7 @@ class Users {
     }
 
     delete( id ) {
-        let userDeleted = this .getUserById( id );
+        let userDeleted = this .getById( id );
 
         this .users = this .users .filter( user => {
             return user .id != id;      // Regresa todos los usuarios diferentes al 'id' solicitado

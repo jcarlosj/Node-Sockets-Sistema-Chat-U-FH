@@ -15,11 +15,20 @@ newUser = {
 
 /** Escucho en el evento de conexión los sockets entrantes al Servidor */
 socket .on( 'connect', () => {
-    console .log( 'Socket conectado al Servidor' );    // Registro en la consola la conexión del Socket al Servidor
+    console .log( 'Socket: Servidor conectado al Cliente' );    // Registro en la consola la conexión del Socket al Servidor
 
     socket .emit( 'enterTheChat', newUser, ( dataResponse ) => {
-        console .log( 'Server', dataResponse );
+        console .log( 'Server (connect:enterTheChat)', dataResponse );
     });
+});
+
+/** Escucha evento que notifica cuando un usuario ha dejado el chat */
+socket .on( 'leaveChat', ( dataResponse ) => {
+    console .log( 'Server (leaveChat)', dataResponse );
+});
+/** Escucha evento que notifica Usuarios que estan en linea (Cuando un usuario entra o sale del Chat) */
+socket .on( 'usersOnline', ( dataResponse ) => {
+    console .log( 'Server (usersOnline)', dataResponse );
 });
 
 /** Detecta la desconeción de los sockets entrantes al Servidor */
