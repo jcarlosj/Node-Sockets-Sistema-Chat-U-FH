@@ -1,7 +1,7 @@
 {
-  "name": "socket-basico",
-  "version": "0.0.1",
-  "description": "Fundamentos de Sockets",
+  "name": "socket-chat",
+  "version": "0.1.0",
+  "description": "Sistema de Chat usando Sockets",
   "main": "server.js",
   "scripts": {
     "start": "node ./server/server",
