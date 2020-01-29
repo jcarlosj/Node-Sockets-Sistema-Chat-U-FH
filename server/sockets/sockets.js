@@ -69,4 +69,14 @@ io .on( 'connection', ( client ) => {
         client .broadcast .emit( 'sentToEveryone', message );
     });
 
+    /** Escucha al Cliente & Obtiene Mensajes Privados */
+    client .on( 'sentToAUser', ( data ) => {
+        let user = users .getById( client .id ),                        // Obtiene el usuario actual
+            message = createMessage( user .username, data .message );   // Crea el mensaje con el nombre y el mensaje que el usuario desea enviar a todos
+
+        console .log( 'sentToAUser', data );
+
+        client .broadcast .to( data .to ) .emit( 'sentToAUser', message );
+    });
+
 });

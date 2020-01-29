@@ -38,10 +38,15 @@ socket .on( 'disconnect', () => {
 
 /** Escucha al Servidor & Obtiene datos Emitidos por el Servidor */
 socket .on( 'userData', ( message ) => {     // 'userData' Nombre del evento esperado
-    console .log( 'Desde el Servidor', message );
+    console .log( 'Server (userData)', message );
 });
 
 /** Escucha al Servidor & Obtiene Mensajes Publicos */
 socket .on( 'sentToEveryone', ( message ) => {     // 'userData' Nombre del evento esperado
-    console .log( 'Desde el Servidor', message );
+    console .log( 'Server (sentToEveryone)', message );
+});
+
+/** Escucha al Servidor & Obtiene Mensajes Privados */
+socket .on( 'sentToAUser', ( privateMessage ) => {
+    console .log( 'Server (sentToAUser)', privateMessage );
 });
