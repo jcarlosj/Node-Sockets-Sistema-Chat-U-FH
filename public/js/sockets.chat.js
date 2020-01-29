@@ -36,7 +36,12 @@ socket .on( 'disconnect', () => {
     console .log( 'Se ha perdido la conexión con el Servidor' );
 });
 
-/** Escucha al Cliente & Recoge los datos Emitidos */
+/** Escucha al Servidor & Obtiene datos Emitidos por el Servidor */
 socket .on( 'userData', ( message ) => {     // 'userData' Nombre del evento esperado
+    console .log( 'Desde el Servidor', message );
+});
+
+/** Escucha al Servidor & Obtiene Mensajes Publicos */
+socket .on( 'sentToEveryone', ( message ) => {     // 'userData' Nombre del evento esperado
     console .log( 'Desde el Servidor', message );
 });

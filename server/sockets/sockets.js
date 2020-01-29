@@ -1,6 +1,7 @@
 const { io } = require( '../server' ),
     { Users } = require( '../classes/users' ),      // Obtiene la Clase Usuarios
-    users = new Users();                            // Instancia objeto de la clase Usuarios 
+    users = new Users(),                            // Instancia objeto de la clase Usuarios 
+    { createMessage } = require( '../utils/utils' );               // Utilidades
 
 /** Escucho en el evento de conexión del Cliente. */
 io .on( 'connection', ( client ) => {
@@ -15,10 +16,7 @@ io .on( 'connection', ( client ) => {
         console .groupEnd();
 
         /** Emite a todos los Clientes: Usuario que ha abandonado el chat */
-        client .broadcast .emit( 'leaveChat', {        
-            username: 'Administrador',
-            message: `${ userLeavesChat .username } ha abandonado el chat`
-        });
+        client .broadcast .emit( 'leaveChat', createMessage( 'Administrador', `${ userLeavesChat .username } ha abandonado el chat` ) );
         /** Emite a todos los Clientes: Listado actual de Usuarios en linea */
         client .broadcast .emit( 'usersOnline', users .getAll() );
     });
@@ -59,6 +57,16 @@ io .on( 'connection', ( client ) => {
             success: true,
             usersOnline
         }); 
+    });
+
+    /** Escucha el evento de enviar mensaje a todos */
+    client .on( 'sendMessageToEveryone', ( data ) => {
+        let user = users .getById( client .id ),                        // Obtiene el usuario actual
+            message = createMessage( user .username, data .message );   // Crea el mensaje con el nombre y el mensaje que el usuario desea enviar a todos
+
+        console .log( 'sendMessageToEveryone', message );
+
+        client .broadcast .emit( 'sentToEveryone', message );
     });
 
 });
